@@ -1,8 +1,10 @@
 # Build the container with
-# docker build -t mabeulux88/netdata:1.0 .
+# docker build -t mabeulux88/netdata:latest .
 #
 # Run the container with
-# docker run -d -v /proc:/host/proc:ro -v /sys:/host/sys:ro --cap-add SYS_PTRACE -h $(hostname) -p 19999:19999 --name netdata mabeulux88/netdata:1.0
+# docker run -d -v /proc:/host/proc:ro -v /sys:/host/sys:ro --cap-add SYS_PTRACE -h $(hostname) -p 19999:19999 --name netdata mabeulux88/netdata:latest
+#
+# Get from Docker Hub : docker pull mabeulux88/netdata:latest
 #
 # Source of inspiration : https://github.com/rothgar/netdata/blob/master/Dockerfile
 FROM debian:latest
