@@ -12,18 +12,14 @@ FROM debian:latest
 RUN apt-get update && \
     apt-get install -y autoconf autogen automake gcc git iproute make pkg-config zlib1g-dev && \
     apt-get clean && \
-    git clone https://github.com/firehol/netdata.git /tmp/netdata.git --depth=1
-
-WORKDIR /tmp/netdata.git
-
-RUN ./netdata-installer.sh --dont-wait --install /opt && \
-    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+    git clone https://github.com/firehol/netdata.git /tmp/netdata.git --depth=1 && \
+    cd /tmp/netdata.git && \
+    ./netdata-installer.sh --dont-wait --install /opt && \
+    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* && \
+    ln -sf /dev/stdout /opt/netdata/var/log/netdata/access.log && \
+    ln -sf /dev/stderr /opt/netdata/var/log/netdata/error.log
 
 WORKDIR /opt
-
-# forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /opt/netdata/var/log/netdata/access.log && \
-    ln -sf /dev/stderr /opt/netdata/var/log/netdata/error.log
 
 EXPOSE 19999
 VOLUME ["/host"]
